@@ -10,6 +10,7 @@ import com.intellij.ui.ToolbarDecorator;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
+import java.util.List;
 
 /**
  * @author fanhl
@@ -20,7 +21,6 @@ public class GenerateDialog extends DialogWrapper {
 
     public GenerateDialog(PsiClass psiClass) {
         super(psiClass.getProject());
-        init();
         setTitle("Select Fields for ComparisonChain");
 
         myFields = new CollectionListModel<>(psiClass.getAllFields());
@@ -30,11 +30,17 @@ public class GenerateDialog extends DialogWrapper {
         decorator.disableAddAction();
         JPanel panel = decorator.createPanel();
         myComponent = LabeledComponent.create(panel, "Fields to include in compareTo():");
+
+        init();
     }
 
     @Nullable
     @Override
     protected JComponent createCenterPanel() {
         return myComponent;
+    }
+
+    public List<PsiField> getFields() {
+        return myFields.getItems();
     }
 }
